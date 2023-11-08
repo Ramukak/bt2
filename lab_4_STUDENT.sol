@@ -26,9 +26,7 @@ contract StudentData {
         return (student.name, student.rollNumber, student.age);
     }
 
-    // Fallback function
-    receive() external payable {
-        // Fallback function can be used for receiving ether
-        // You can add custom logic here if needed
-    }
+    fallback() external {
+        revert("Fallback function called");
+    }
 }
