@@ -30,3 +30,4 @@ contract StudentData {
         revert("Fallback function called");
     }
 }
+
