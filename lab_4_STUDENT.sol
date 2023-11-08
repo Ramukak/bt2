@@ -1,38 +1,34 @@
-// SPDX-License-Identifier: Bhide License
+// SPDX-License-Identifier: MIT
+
 pragma solidity ^0.8.0;
 
-contract StudentRegistry {
+contract StudentData {
+    // Structure to represent student information
     struct Student {
         string name;
+        uint256 rollNumber;
         uint256 age;
     }
 
-    Student[] private students;
+    // Array to store a list of students
+    Student[] public students;
 
-    // Define an event to log the received Ether value
-    event ReceivedEther(address indexed sender, uint256 value);
+    // Function to add a new student
+    function addStudent(string memory _name, uint256 _rollNumber, uint256 _age) public {
+        Student memory newStudent = Student(_name, _rollNumber, _age);
+        students.push(newStudent);
+    }
 
+    // Function to retrieve student information by index
+    function getStudent(uint256 index) public view returns (string memory, uint256, uint256) {
+        require(index < students.length, "Student does not exist");
+        Student storage student = students[index];
+        return (student.name, student.rollNumber, student.age);
+    }
+
+    // Fallback function
     receive() external payable {
-        // This function can receive Ether, but it doesn't do anything in this example.
-        // Log the received Ether value
-        emit ReceivedEther(msg.sender, msg.value);
-    }
-
-    fallback() external payable {
-        // Fallback function to receive Ether
-        emit ReceivedEther(msg.sender, msg.value);
-    }
-
-    function addStudent(string memory name, uint256 age) public {
-        students.push(Student(name, age));
-    }
-
-    function getStudent(uint256 index) public view returns (string memory, uint256) {
-        require(index < students.length, "Student not found");
-        return (students[index].name, students[index].age);
-    }
-
-    function getStudentCount() public view returns (uint256) {
-        return students.length;
-    }
+        // Fallback function can be used for receiving ether
+        // You can add custom logic here if needed
+    }
 }
